@@ -38,6 +38,8 @@ class CountDown extends React.Component {
     onPress: PropTypes.func,
     onFinish: PropTypes.func,
   };
+  
+  appStateRef ;
 
   state = {
     until: Math.max(this.props.until, 0),
@@ -51,12 +53,12 @@ class CountDown extends React.Component {
   }
 
   componentDidMount() {
-    AppState.addEventListener('change', this._handleAppStateChange);
+   this.appStateRef =  AppState.addEventListener('change', this._handleAppStateChange);
   }
 
   componentWillUnmount() {
     clearInterval(this.timer);
-    AppState.removeEventListener('change', this._handleAppStateChange);
+    this.appStateRef.remove()
   }
 
   componentDidUpdate(prevProps, prevState) {
